@@ -1,5 +1,5 @@
 
-@apiKey = 62237afe89d3fbec955b34f3b9b447948a612c70b591cd5b5837d3aad0a6ac48
+@apiKey = 62237dfdafe89d3fbec955b34f3b9b4479dfere48a612c70b591cd5b5837d3aad0a6ac48
 @port=5050
 @baseUrl=http://localhost:{{port}}
 
