@@ -1,0 +1,34 @@
+@apiKey = 62237afe89d3fbec955b34f3b9b447948a612c70b591cd5b5837d3aad0a6ac48
+@port=5050
+@baseUrl=http://localhost:{{port}}
+
+
+### posting plant 1 [urn:gdst:example.org:location:loc:processor.plant1][urn:epc:id:gln:88000269.0007]
+POST {{baseUrl}}/gs1webvoc/organizations
+Content-Type: application/ld+json
+X-API-Key: {{apiKey}}
+
+{
+    "@context": {
+      "cbvmda": "urn:epcglobal:cbvmda:mda",
+      "xsd": "http://www.w3.org/2001/XMLSchema#",
+      "gs1": "http://gs1.org/voc/",
+      "@vocab": "http://gs1.org/voc/",
+      "gdst": "https://traceability-dialogue.org/vocab/"
+    },
+    "@type": "gs1:Organization",
+    "globalLocationNumber": "urn:epc:id:pgln:88000269.0007",
+    "cbvmda:informationProvider": "urn:epc:id:pgln:88000269.0007",
+    "organizationName": [
+      {
+        "@language": "en-US",
+        "@value": "Auto-ID processor Plant 1 Co."
+      }
+    ]
+  }
+
+
+### Get the posted json
+GET {{baseUrl}}/gs1webvoc/417/urn:epc:id:gln:88000269.0007
+Accept: application/ld+json
+X-API-Key: {{apiKey}}

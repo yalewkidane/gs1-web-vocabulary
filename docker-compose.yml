@@ -1,0 +1,32 @@
+version: '3.3'
+
+services:
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    volumes:
+      - ../data/db:/data/db
+    ports:
+      - "27018:27017"
+    ## add --quiet to reduce log verbosity
+    ## Suppress verbose WiredTiger messages
+    command: [
+      "mongod", 
+      "--quiet", 
+      "--logpath", "/dev/null",
+      "--setParameter", "quiet=1",
+      "--setParameter", "logLevel=0"
+    ]
+
+  api:
+    build: .
+    container_name: gs1-web-vocabulary-api
+    ports:
+      - "5050:5050"
+    depends_on:
+      - mongodb
+    environment:
+      - MONGO_URI=mongodb://mongodb:27017/masterdata
+      - PORT=5050
+      - NODE_ENV=development
+      - CORS_ORIGIN=http://localhost:5050

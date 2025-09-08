@@ -1,0 +1,98 @@
+
+@apiKey = 62237afe89d3fbec955b34f3b9b447948a612c70b591cd5b5837d3aad0a6ac48
+@port=5050
+@baseUrl=http://localhost:{{port}}
+
+
+# Web Vocabulary API
+#[POST]gs1webvoc/capture  to post data input []
+#[GET]gs1webvoc/{ai}/{id} to get data
+#[GET]gs1webvoc/search?type=gs1:Place return max of 30 with pagination
+#[GET]gs1webvoc/search? return max of 30 with pagination
+
+
+### posting json
+POST {{baseUrl}}/gs1webvoc/capture
+Content-Type: application/ld+json
+X-API-Key: {{apiKey}}
+
+[
+    {
+    "@context": {
+      "cbvmda": "urn:epcglobal:cbv:mda",
+      "xsd": "http://www.w3.org/2001/XMLSchema#",
+      "gs1": "http://gs1.org/voc/",
+      "@vocab": "http://gs1.org/voc/",
+      "gdst": "https://traceability-dialogue.org/vocab"
+    },
+    "@type": "gs1:Place",
+    "globalLocationNumber": "urn:gdst:example.org:location:loc:importer.124",
+    "cbvmda:owning_party": "urn:gdst:example.org:party:importer.1",
+    "cbvmda:informationProvider": "urn:gdst:example.org:party:importer.1233",
+    "name": [
+      { "@language": "en-US", "@value": "Importer Warehouse" }
+    ],
+    "address": {
+      "@type": "gs1:PostalAddress",
+      "streetAddress": [
+        { "@language": "en-US", "@value": "1345 Estados Unidos" }
+      ],
+      "addressLocality": [
+        { "@language": "en-US", "@value": "Sao Paulo" }
+      ],
+      "addressRegion": [
+        { "@language": "en-US", "@value": "Sao Paulo" }
+      ],
+      "countryCode": "BR"
+    }
+  },
+  {
+      "@context": {
+        "cbvmda": "urn:epcglobal:cbvmda:mda",
+        "xsd": "http://www.w3.org/2001/XMLSchema#",
+        "gs1": "http://gs1.org/voc/",
+        "@vocab": "http://gs1.org/voc/",
+        "gdst": "https://traceability-dialogue.org/vocab/"
+      },
+      "@type": "gs1:Organization",
+      "globalLocationNumber": "urn:gdst:traceability-solution.com:party:7d90c2cd-a801-4e22-acee-82bf27a4844d",
+      "cbvmda:informationProvider": "urn:gdst:traceability-solution.com:party:7d90c2cd-a801-4e22-acee-82bf27a4844d",
+      "organizationName": [
+        {
+          "@language": "en-US",
+          "@value": "Jim's Feeding Co."
+        }
+      ]
+    }
+
+]
+
+
+
+
+### Get the posted json
+GET {{baseUrl}}/gs1webvoc/414/urn:gdst:example.org:location:loc:importer.124
+Accept: application/ld+json
+X-API-Key: {{apiKey}}
+
+
+### Get the posted json
+GET {{baseUrl}}/gs1webvoc/417/urn:gdst:traceability-solution.com:party:7d90c2cd-a801-4e22-acee-82bf27a4844d
+Accept: application/ld+json
+X-API-Key: {{apiKey}}
+
+
+
+
+
+
+### Get the posted json
+GET {{baseUrl}}/gs1webvoc/search
+Accept: application/json
+X-API-Key: {{apiKey}}
+
+
+### Get the posted json
+GET {{baseUrl}}/gs1webvoc/search?type=gs1:Place
+Accept: application/json
+X-API-Key: {{apiKey}}

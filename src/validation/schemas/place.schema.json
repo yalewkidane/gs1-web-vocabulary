@@ -1,0 +1,80 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+   
+  "patternProperties": {
+    "^(cbvmda|gdst):": {}
+  },
+
+  "properties": {
+    "@type": {
+      "anyOf": [
+        { "type": "string", "const": "gs1:Place" },
+        { "type": "array", "contains": { "const": "gs1:Place" } }
+      ]
+    },
+    "@id": { "type": "string", "format": "uri" },
+    "globalLocationNumber": {
+      "type": "string"
+    },
+    "name": {
+      "anyOf": [
+        { "type": "string" },
+        {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+              "@value": { "type": "string", "minLength": 1 },
+              "@language": { "type": "string" }
+            },
+            "required": ["@value"]
+          }
+        }
+      ]
+    },
+    "address": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "@type": { "const": "gs1:PostalAddress" },
+        "streetAddress": {
+          "anyOf": [
+            { "type": "string" },
+            {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": true,
+                "properties": {
+                  "@value": { "type": "string", "minLength": 1 },
+                  "@language": { "type": "string" }
+                },
+                "required": ["@value"]
+              }
+            }
+          ]
+        },
+        "addressLocality": {
+          "anyOf": [
+            { "type": "string" },
+            { "$ref": "#/properties/address/properties/streetAddress/anyOf/1" }
+          ]
+        },
+        "addressRegion": {
+          "anyOf": [
+            { "type": "string" },
+            { "$ref": "#/properties/address/properties/streetAddress/anyOf/1" }
+          ]
+        },
+        "countryCode": { "type": "string", "pattern": "^[A-Z]{2}$" }
+      },
+      "required": ["@type"]
+      
+    }
+  },
+  "required": ["@type", "address"],
+  "unevaluatedProperties": false
+}

@@ -1,0 +1,11 @@
+{
+    "@context": {
+      "cbvmda": "urn:epcglobal:cbv:mda",
+      "xsd": "http://www.w3.org/2001/XMLSchema#",
+      "gs1": "http://gs1.org/voc/",
+      "@vocab": "http://gs1.org/voc/",
+      "gdst": "https://traceability-dialogue.org/vocab"
+    },
+    "@type": "gs1:Place",
+    "@embed": "@always"
+}

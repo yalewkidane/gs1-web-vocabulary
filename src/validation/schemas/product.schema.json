@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": true,
+   
+  "patternProperties": {
+    "^(cbvmda|gdst):": {}
+  },
+
+  "properties": {
+    "@type": {
+      "anyOf": [
+        { "type": "string", "const": "gs1:Place" },
+        { "type": "array", "contains": { "const": "gs1:Place" } }
+      ]
+    },
+    "@id": { "type": "string", "format": "uri" }
+  },
+  "required": ["@type"],
+  "unevaluatedProperties": false
+}

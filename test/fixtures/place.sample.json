@@ -1,0 +1,20 @@
+{
+    "@context": "https://ref.gs1.org/voc/data/gs1Voc.jsonld",
+    "@id": "urn:epc:id:gln:0614141.12345.0",
+    "@type": "gs1:Place",
+    "globalLocationNumber": "0614141123450",
+    "name": [
+        {
+            "@language": "en-US",
+            "@value": "GS1 US Office"
+        }
+    ],
+    "address": {
+        "@type": "gs1:PostalAddress",
+        "countryCode": "US",
+        "streetAddress": "300 Charles Ewing Boulevard",
+        "city": "Ewing",
+        "state": "NJ",
+        "postalCode": "08628"
+    }
+}

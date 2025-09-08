@@ -1,0 +1,33 @@
+{
+  "name": "gs1-web-vocabulary",
+  "version": "1.0.0",
+  "description": "GS1 Web Vocabulary JSON-LD master data storage",
+  "main": "src/index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js",
+    "test": "vitest"
+  },
+  "dependencies": {
+    "ajv": "^8.12.0",
+    "ajv-formats": "^2.1.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "express-rate-limit": "^7.1.5",
+    "helmet": "^7.1.0",
+    "jsonld": "^8.2.0",
+    "mongodb": "^6.3.0",
+    "n3": "^1.26.0",
+    "pino": "^8.17.2",
+    "pino-http": "^9.0.0",
+    "rdf-ext": "^2.6.0",
+    "rdf-validate-shacl": "^0.5.5"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2",
+    "supertest": "^6.3.3",
+    "vitest": "^1.2.0"
+  }
+}

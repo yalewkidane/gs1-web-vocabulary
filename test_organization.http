@@ -1,0 +1,34 @@
+@apiKey = 62237afe89d3fbec955b34f3b9b447948a612c70b591cd5b5837d3aad0a6ac48
+@port=5050
+@baseUrl=http://localhost:{{port}}
+
+### posting json
+POST {{baseUrl}}/gs1webvoc/organizations
+Content-Type: application/ld+json
+X-API-Key: {{apiKey}}
+
+{
+    "@context": {
+      "cbvmda": "urn:epcglobal:cbvmda:mda",
+      "xsd": "http://www.w3.org/2001/XMLSchema#",
+      "gs1": "http://gs1.org/voc/",
+      "@vocab": "http://gs1.org/voc/",
+      "gdst": "https://traceability-dialogue.org/vocab/"
+    },
+    "@type": "gs1:Organization",
+    "globalLocationNumber": "urn:gdst:traceability-solution.com:party:7d90c2cd-a801-4e22-acee-82bf27a4844d",
+    "cbvmda:informationProvider": "urn:gdst:traceability-solution.com:party:7d90c2cd-a801-4e22-acee-82bf27a4844d",
+    "organizationName": [
+      {
+        "@language": "en-US",
+        "@value": "Jim's Feeding Co."
+      }
+    ]
+  }
+
+
+
+### Get the posted json
+GET {{baseUrl}}/gs1webvoc/417/urn:gdst:traceability-solution.com:party:7d90c2cd-a801-4e22-acee-82bf27a4844d
+Accept: application/ld+json
+X-API-Key: {{apiKey}}

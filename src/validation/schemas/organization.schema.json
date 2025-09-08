@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+   
+  "patternProperties": {
+    "^(cbvmda|gdst):": {}
+  },
+
+  "properties": {
+    "@type": {
+      "anyOf": [
+        { "type": "string", "const": "gs1:Organization" },
+        { "type": "array", "contains": { "const": "gs1:Organization" } }
+      ]
+    },
+    "@id": { "type": "string", "format": "uri" },
+    "globalLocationNumber": {
+      "type": "string"
+    },
+    "organizationName": {
+      "anyOf": [
+        { "type": "string" },
+        {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+              "@value": { "type": "string", "minLength": 1 },
+              "@language": { "type": "string" }
+            },
+            "required": ["@value"]
+          }
+        }
+      ]
+    }
+  },
+  "required": ["@type"],
+  "unevaluatedProperties": false
+}

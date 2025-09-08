@@ -1,0 +1,126 @@
+
+###
+Get http://localhost:3000/healthz
+
+###
+
+### posting json
+POST http://localhost:3000/masterdata 
+Content-Type: application/ld+json
+
+{
+  "@context": {
+    "cbvmda": "urn:epcglobal:cbv:mda",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "gs1": "http://gs1.org/voc/",
+    "@vocab": "http://gs1.org/voc/",
+    "gdst": "https://traceability-dialogue.org/vocab"
+  },
+  "@type": "gs1:Place",
+  "globalLocationNumber": "urn:gdst:example.org:location:loc:importer.123",
+  "cbvmda:owning_party": "urn:gdst:example.org:party:importer.1",
+  "cbvmda:informationProvider": "urn:gdst:example.org:party:importer.1",
+  "name": [
+    { "@language": "en-US", "@value": "Importer Warehouse" }
+  ],
+  "address": {
+    "@type": "gs1:PostalAddress",
+    "streetAddress": [
+      { "@language": "en-US", "@value": "134 Estados Unidos" }
+    ],
+    "addressLocality": [
+      { "@language": "en-US", "@value": "Sao Paulo" }
+    ],
+    "addressRegion": [
+      { "@language": "en-US", "@value": "Sao Paulo" }
+    ],
+    "countryCode": "BR"
+  }
+}
+
+
+
+### Get the posted json
+GET http://localhost:3000/masterdata/urn:gdst:example.org:location:loc:importer.123
+Accept: application/ld+json
+
+
+
+
+
+
+
+
+
+
+### place example 
+POST http://localhost:3000/masterdata 
+Content-Type: application/ld+json
+
+{
+  "@context": [
+    {
+      "cbvmda": "urn:epcglobal:cbv:mda",
+      "xsd": "http://www.w3.org/2001/XMLSchema#",
+      "gs1": "http://gs1.org/voc/",
+      "@vocab": "http://gs1.org/voc/",
+      "gdst": "https://traceability-dialogue.org/vocab"
+    },
+    "https://ref.gs1.org/voc/data/gs1Voc.jsonld"
+  ],
+  "@type": "gs1:Place",
+  "@id": "https://example.org/locations/importer-warehouse/3",
+  "globalLocationNumber34": "7891234567895",
+  "name": [{ "@language": "en-US", "@value": "Importer Warehouse" }],
+  "address": {
+    "@type": "gs1:PostalAddress",
+    "streetAddress": [{ "@language": "en-US", "@value": "134 Estados Unidos" }],
+    "addressLocality": [{ "@language": "en-US", "@value": "Sao Paulo" }],
+    "addressRegion": [{ "@language": "en-US", "@value": "Sao Paulo" }],
+    "countryCode": "BR"
+  }
+}
+
+### Get the posted json
+GET http://localhost:3000/masterdata/https://example.org/locations/importer-warehouse/2?view=original
+Accept: application/ld+json
+
+
+
+
+
+
+
+
+
+###
+POST http://localhost:3000/masterdata
+Content-Type: application/ld+json
+
+{
+  "@context": {
+    "gs1": "http://gs1.org/voc/",
+    "@vocab": "http://example.com/voc/",  // <-- NOT GS1 on purpose
+    "cbvmda": "urn:epcglobal:cbv:mda",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "gdst": "https://traceability-dialogue.org/vocab"
+  },
+  "@type": "gs1:Place",
+  "globalLocationNumber": "urn:gdst:example.org:location:loc:importer.123",
+  "name": [
+    { "@language": "en-US", "@value": "Importer Warehouse" }
+  ],
+  "address": {
+    "@type": "gs1:PostalAddress",
+    "streetAddress": [
+      { "@language": "en-US", "@value": "134 Estados Unidos" }
+    ],
+    "addressLocality": [
+      { "@language": "en-US", "@value": "Sao Paulo" }
+    ],
+    "addressRegion": [
+      { "@language": "en-US", "@value": "Sao Paulo" }
+    ],
+    "countryCode": "BR"
+  }
+}

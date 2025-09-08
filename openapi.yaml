@@ -1,0 +1,101 @@
+openapi: 3.0.0
+info:
+  title: GS1 Web Vocabulary API
+  version: 1.0.0
+  description: API for storing and retrieving GS1 Web Vocabulary JSON-LD master data.
+servers:
+  - url: http://localhost:3000
+paths:
+  /masterdata:
+    post:
+      summary: Ingest a JSON-LD document
+      requestBody:
+        required: true
+        content:
+          application/ld+json:
+            schema:
+              type: object
+              example:
+                "@context": "https://ref.gs1.org/voc/data/gs1Voc.jsonld"
+                "@id": "urn:epc:id:gln:0614141.12345.0"
+                "@type": "gs1:Place"
+                "globalLocationNumber": "0614141123450"
+                "name":
+                  - "@language": "en-US"
+                    "@value": "GS1 US Office"
+                "address":
+                  "@type": "gs1:PostalAddress"
+                  "countryCode": "US"
+                  "streetAddress": "300 Charles Ewing Boulevard"
+                  "city": "Ewing"
+                  "state": "NJ"
+                  "postalCode": "08628"
+      responses:
+        '201':
+          description: Document created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+        '400':
+          description: Invalid input
+  /masterdata/{id}:
+    get:
+      summary: Retrieve a JSON-LD document by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: URL-encoded ID of the document
+      responses:
+        '200':
+          description: Successful retrieval
+          content:
+            application/ld+json:
+              schema:
+                type: object
+        '404':
+          description: Document not found
+  /healthz:
+    get:
+      summary: Liveness probe
+      responses:
+        '200':
+          description: Service is running
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: ok
+  /readyz:
+    get:
+      summary: Readiness probe
+      responses:
+        '200':
+          description: Service is ready to accept traffic
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ready:
+                    type: boolean
+                    example: true
+        '503':
+          description: Service is not ready
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ready:
+                    type: boolean
+                    example: false
