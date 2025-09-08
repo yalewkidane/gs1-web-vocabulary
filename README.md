@@ -40,7 +40,7 @@ Create a .env in the project root (values shown are sane defaults):
 # API
 PORT=3000                       # container port; compose maps 5050:3000
 CORS_ORIGIN=*                   # or http://localhost:5050
-API_KEY=62237dfdafe89d3fbec955b34f3b9b4479dfere48a612c70b591cd5b5837d3aad0a6ac48
+API_KEY=api-key-value
 
 # MongoDB
 MONGO_URI=mongodb://mongodb:27017/masterdata
@@ -52,7 +52,7 @@ The service expects X-API-Key to match API_KEY (via your authMiddleware).
 
 ### Base variables (for REST Client / curl)
 ```less
-@apiKey = 62237dfdafe89d3fbec955b34f3b9b4479dfere48a612c70b591cd5b5837d3aad0a6ac48
+@apiKey = api-key-value
 @port   = 5050
 @baseUrl= http://localhost:{{port}}
 ```
@@ -128,7 +128,7 @@ CORS note: The API exposes Link and Next-Page-Token headers so browsers can read
 
 All examples assume:
 ```less
-@apiKey = 62237dfdafe89d3fbec955b34f3b9b4479dfere48a612c70b591cd5b5837d3aad0a6ac48
+@apiKey = api-key-value
 @port   = 5050
 @baseUrl= http://localhost:{{port}}
 ```
@@ -188,28 +188,28 @@ X-API-Key: {{apiKey}}
 ```
 
 ### Get by AI + ID (Place via AI 414)
-```http
+```perl
 GET {{baseUrl}}/gs1webvoc/414/urn:gdst:example.org:location:loc:importer.124
 Accept: application/ld+json
 X-API-Key: {{apiKey}}
 ```
 
 ### Get by AI + ID (Organization via AI 417)
-```http
+```perl
 GET {{baseUrl}}/gs1webvoc/417/urn:gdst:traceability-solution.com:party:7d90c2cd-a801-4e22-acee-82bf27a4844d
 Accept: application/ld+json
 X-API-Key: {{apiKey}}
 ```
 
 ### Search (all types)
-```http
+```perl
 GET {{baseUrl}}/gs1webvoc/search
 Accept: application/json
 X-API-Key: {{apiKey}}
 ```
 
 ### Search (typed – Places only)
-```http
+```perl
 GET {{baseUrl}}/gs1webvoc/search?type=gs1:Place
 Accept: application/json
 X-API-Key: {{apiKey}}
@@ -218,19 +218,20 @@ X-API-Key: {{apiKey}}
 
 Paginating: if the response includes Next-Page-Token header, request the next page with:
 
-```http
+```perl
 GET {{baseUrl}}/gs1webvoc/search?type=gs1:Place&next={{Next-Page-Token}}
 Accept: application/json
 X-API-Key: {{apiKey}}
 ```
 
 ### Health & readiness
-
+```perl
 GET /health – simple liveness JSON
 
 GET /gs1webvoc/healthz – router-level check
 
 GET /gs1webvoc/readyz – verifies Mongo connectivity
+```
 
 ### Notes / Behavior
 
@@ -245,7 +246,7 @@ Search cap: limit is accepted but always capped to 30. Pagination is via headers
 CORS: Location, ETag, Link, Next-Page-Token are exposed to browsers.
 
 ### Troubleshooting
-
+```perl
 401/403: ensure X-API-Key matches the API_KEY in .env.
 
 ECONNREFUSED Mongo: confirm mongodb service is healthy and MONGO_URI matches compose network host/port.
@@ -253,3 +254,4 @@ ECONNREFUSED Mongo: confirm mongodb service is healthy and MONGO_URI matches com
 422 on capture: check response details for Ajv/SHACL violations.
 
 Pagination headers not visible in browser: make sure CORS exposedHeaders includes Link and Next-Page-Token.
+```
