@@ -57,72 +57,55 @@ The service expects X-API-Key to match API_KEY (via your authMiddleware).
 @baseUrl= http://localhost:{{port}}
 ```
 
-### Endpoints
-### 1) Capture (upsert)
+## Endpoints
 
-#### POST /gs1webvoc/capture
+## 1) Capture (upsert)
 
-. Body: a single JSON-LD object or an array of JSON-LD objects
-. Content-Type: application/ld+json
-. Success:
+**POST** `/gs1webvoc/capture`
 
-Single: 201 + stored JSON-LD object
+- **Body:** a single JSON-LD object **or** an array of JSON-LD objects  
+- **Content-Type:** `application/ld+json`
+- **Responses:**
+  - **Single:** `201` + stored JSON-LD object
+  - **Batch (all succeed):** `201` + array of JSON-LD objects
+  - **Batch (mixed):** `207 Multi-Status` with per-item results
+- **Query:**
+  - `ctx=inline|full` (default: `inline`) — return simplified `@context` or full array
 
-Batch (all succeed): 201 + array of JSON-LD objects
+---
 
-Batch (mixed): 207 Multi-Status with per-item results
+## 2) Get by AI + ID (verbatim ID)
 
-Query:
+**GET** `/gs1webvoc/{ai}/{id}`
 
-ctx=inline|full (default inline) – return simplified @context or full array
+- Uses `{ai}` to gate type and matches `{id}` **verbatim** against `_id` or mapped identifier.
+- **Examples:**
+  - `414` → `gs1:Place` (GLN / Location)
+  - `417` → `gs1:Organization` (GLN / Party)
+  - `01`  → `gs1:Product` (GTIN)
+- **Query:**
+  - `view=original|expanded|framed` (default: `original`)
+  - `ctx=inline|full` (default: `inline`)
+- **Responses:** `200` (JSON-LD) or `404` (not found)
 
-### 2) Get by AI + ID (verbatim ID)
+---
 
-GET /gs1webvoc/{ai}/{id}
+## 3) Search (typed or untyped)
 
-Uses {ai} to gate type and matches {id} verbatim against _id or mapped identifier
+**GET** `/gs1webvoc/search?type=gs1:Place`
 
-Examples:
+- Returns up to **30** items per page.
+- **Pagination headers:**
+  - `Next-Page-Token: <token>` (present when more results exist)
+  - `Link: <https://…/gs1webvoc/search?…&next=<token>>; rel="next"`
+- **Query:**
+  - `type=gs1:Place` (optional — when omitted, searches **all** types)
+  - `view=original|expanded|framed` (default: `original`)
+  - `ctx=inline|full` (default: `inline`)
+  - `next=<token>` (from previous page)
+  - `limit` is accepted but **capped to 30**
+- **CORS note:** The API exposes `Link` and `Next-Page-Token` headers so browsers can read them.
 
-414 → gs1:Place (GLN/Location)
-
-417 → gs1:Organization (GLN/Party)
-
-01 → gs1:Product (GTIN)
-
-Query:
-
-view=original|expanded|framed (default original)
-
-ctx=inline|full (default inline)
-
-Returns: 200 JSON-LD (or 404 if not found)
-
-### 3) Search (typed or untyped)
-
-GET /gs1webvoc/search?type=gs1:Place
-
-Returns up to 30 items per page
-
-Cursor headers for pagination:
-
-Next-Page-Token: <token> (when more results exist)
-
-Link: <url-with-next>; rel="next"
-
-Query:
-
-type=gs1:Place (optional – when omitted, searches all types)
-
-view=original|expanded|framed (default original)
-
-ctx=inline|full (default inline)
-
-next=<token> (from previous page)
-
-limit is accepted but capped to 30
-
-CORS note: The API exposes Link and Next-Page-Token headers so browsers can read them.
 
 ### Examples
 
