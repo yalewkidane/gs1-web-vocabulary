@@ -10,8 +10,8 @@
   "properties": {
     "@type": {
       "anyOf": [
-        { "type": "string", "const": "gs1:Place" },
-        { "type": "array", "contains": { "const": "gs1:Place" } }
+        { "type": "string", "const": "gs1:Product" },
+        { "type": "array", "contains": { "const": "gs1:Product" } }
       ]
     },
     "@id": { "type": "string", "format": "uri" }

@@ -96,3 +96,49 @@ X-API-Key: {{apiKey}}
 GET {{baseUrl}}/gs1webvoc/search?type=gs1:Place
 Accept: application/json
 X-API-Key: {{apiKey}}
+
+
+
+
+
+
+### testing product
+POST {{baseUrl}}/gs1webvoc/capture
+Content-Type: application/ld+json
+X-API-Key: {{apiKey}}
+
+[
+{
+  "@context": {
+    "cbvmda": "urn:epcglobal:cbv:mda",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "gs1": "http://gs1.org/voc/",
+    "@vocab": "http://gs1.org/voc/",
+    "gdst": "https://traceability-dialogue.org/vocab"
+  },
+  "@type": "gs1:Product",
+  "gtin": "urn:gdst:example.org:product:class:processor.2",
+  "productName": [
+    {
+      "@language": "en-US",
+      "@value": "Can of Tuna"
+    }
+  ],
+  "cbvmda:tradeItemConditionCode": "OTH",
+  "cbvmda:owning_party": "urn:gdst:example.org:party:processor.1",
+  "cbvmda:informationProvider": "urn:gdst:example.org:party:processor.1",
+  "cbvmda:speciesForFisheryStatisticsPurposesName": [
+    "Thunnus albacares"
+  ],
+  "cbvmda:speciesForFisheryStatisticsPurposesCode": [
+    "YFT"
+  ]
+}]
+
+
+### Get the posted json
+GET {{baseUrl}}/gs1webvoc/01/urn:gdst:example.org:product:class:processor.2
+Accept: application/ld+json
+X-API-Key: {{apiKey}}
+
+
