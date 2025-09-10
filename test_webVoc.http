@@ -142,3 +142,28 @@ Accept: application/ld+json
 X-API-Key: {{apiKey}}
 
 
+### 
+POST {{baseUrl}}/gs1webvoc/capture
+Content-Type: application/ld+json
+X-API-Key: {{apiKey}}
+
+{
+  "@context": {
+    "cbvmda": "urn:epcglobal:cbvmda:mda",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "gs1": "http://gs1.org/voc/",
+    "@vocab": "http://gs1.org/voc/",
+    "gdst": "https://traceability-dialogue.org/vocab/"
+  },
+  "@type": "gs1:Place",
+  "globalLocationNumber": "urn:gdst:traceability-solution.com:location:loc:9e6b7f21-2a0d-4c2a-9b4a-7a0e5b7d3f21.fv-bluecurrent-001",
+  "cbvmda:owning_party": "urn:gdst:traceability-solution.com:party:9e6b7f21-2a0d-4c2a-9b4a-7a0e5b7d3f21",
+  "cbvmda:informationProvider": "urn:gdst:traceability-solution.com:party:9e6b7f21-2a0d-4c2a-9b4a-7a0e5b7d3f21",
+  "gs1:physicalLocationName": [
+    { "@language": "en-US", "@value": "FV Blue Current" }
+  ],
+  "cbvmda:vesselFlagState": "KR",
+  "cbvmda:vesselID": "KRPUS-FV-0001",
+  "cbvmda:vesselName": "FV Blue Current",
+  "gdst:imoNumber": "IMO.9876543"
+}

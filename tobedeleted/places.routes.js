@@ -30,7 +30,7 @@ router.get('/414/:id(*)', async (req, res, next) => {
     const ctxMode = (req.query.ctx || 'inline').toString();
 
     const doc = await getPlaceById(id, { view });
-    if (!doc) return res.status(404).json({ error: 'Not found' });
+    if (!doc) return res.status(404).json({ error: 'Oliot Web Vocabulary Not found - 414' });
 
     const body = ctxMode === 'full' ? doc : compactContextForOutput(doc);
     res.type('application/ld+json').send(body);

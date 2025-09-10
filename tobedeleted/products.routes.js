@@ -24,7 +24,7 @@ router.get('/01/:id(*)', async (req, res, next) => {
     const id = decodeURIComponent(req.params.id);
     const view = (req.query.view || 'original').toString();
     const doc = await getProductById(id, { view });
-    if (!doc) return res.status(404).json({ error: 'Not found' });
+    if (!doc) return res.status(404).json({ error: 'Oliot Web Vocabulary Not found -01' });
     res.type('application/ld+json').send(doc);
   } catch (err) {
     next(err);

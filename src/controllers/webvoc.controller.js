@@ -66,7 +66,7 @@ export async function getByAiAndId(req, res, next) {
     const ctx  = (req.query.ctx  || 'inline').toString();
 
     const doc = await findByAiAndIdExact(ai, id, { view });
-    if (!doc) return res.status(404).json({ error: 'Not found' });
+    if (!doc) return res.status(404).json({ error: 'Oliot Web Vocabulary Not found' });
 
     const body = ctx === 'full' ? doc : compactContextForOutput(doc);
     res.type('application/ld+json').send(body);
