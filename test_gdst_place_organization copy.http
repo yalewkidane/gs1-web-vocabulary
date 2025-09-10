@@ -1,0 +1,218 @@
+@apiKey = 62237afe89d3fbec955b34f3b9b447948a612c70b591cd5b5837d3aad0a6ac48
+@localPort=5050
+@port=24240
+@baseUrl=http://210.113.134.235:{{port}}/gs1webvoc
+
+
+
+#Processor 
+  # urn:gdst:example.org:location:loc:processor.plant1
+  #  |---> urn:epc:id:sgln:88000269.0007.1
+
+  # urn:gdst:example.org:party:processor.1
+  #  |---> urn:epc:id:pgln:88000269.00007
+
+
+#importer
+  # urn:gdst:example.org:location:loc:importer.123
+  #  |---> urn:epc:id:sgln:88000269.0011.1
+
+  # urn:gdst:example.org:party:importer.1
+  #  |---> urn:epc:id:pgln:88000269.00011
+
+
+### Processor Location
+GET http://210.113.134.235:24240/gs1webvoc/414/urn:gdst:example.org:location:loc:processor.plant1
+Accept: application/ld+json
+X-API-Key: {{apiKey}}
+
+### Processor Location
+GET {{baseUrl}}/414/urn:gdst:example.org:location:loc:processor.plant1
+Accept: application/ld+json
+X-API-Key: {{apiKey}}
+
+### Processor Organization
+GET {{baseUrl}}/417/urn:gdst:example.org:party:processor.1
+Accept: application/ld+json
+X-API-Key: {{apiKey}}
+
+
+
+### Improrter Location
+GET {{baseUrl}}/414/urn:gdst:example.org:location:loc:importer.123
+Accept: application/ld+json
+X-API-Key: {{apiKey}} 
+
+### Importer Organization
+GET {{baseUrl}}/417/urn:gdst:example.org:party:importer.1
+Accept: application/ld+json
+X-API-Key: {{apiKey}}
+
+
+
+### Search all
+GET {{baseUrl}}/search
+Accept: application/ld+json
+X-API-Key: {{apiKey}}
+
+
+
+### Search all
+GET {{baseUrl}}/search
+Accept: application/ld+json
+X-API-Key: {{apiKey}}
+
+
+### posting json
+POST {{baseUrl}}/capture
+Content-Type: application/ld+json
+X-API-Key: {{apiKey}}
+
+[
+  {
+    "@context": {
+      "cbvmda": "urn:epcglobal:cbv:mda",
+      "xsd": "http://www.w3.org/2001/XMLSchema#",
+      "gs1": "http://gs1.org/voc/",
+      "@vocab": "http://gs1.org/voc/",
+      "gdst": "https://traceability-dialogue.org/vocab"
+    },
+    "@type": "gs1:Place",
+    "globalLocationNumber": "urn:gdst:example.org:location:loc:processor.plant1",
+    "cbvmda:owning_party": "urn:gdst:example.org:party:processor.1",
+    "cbvmda:informationProvider": "urn:gdst:example.org:party:processor.1",
+    "name": [
+      { "@language": "en-US", "@value": "Busan Processing Facility" },
+      { "@language": "ko-KR", "@value": "부산 가공 시설" }
+    ],
+    "address": {
+      "@type": "gs1:PostalAddress",
+      "streetAddress": [
+        { "@language": "en-US", "@value": "100 Jungang-daero, Jung-gu" },
+        { "@language": "ko-KR", "@value": "부산광역시 중구 중앙대로 100" }
+      ],
+      "addressLocality": [
+        { "@language": "en-US", "@value": "Busan" },
+        { "@language": "ko-KR", "@value": "부산" }
+      ],
+      "addressRegion": [
+        { "@language": "en-US", "@value": "Busan" },
+        { "@language": "ko-KR", "@value": "부산" }
+      ],
+      "countryCode": "KR"
+    }
+  },
+  {
+    "@context": {
+      "cbvmda": "urn:epcglobal:cbv:mda",
+      "xsd": "http://www.w3.org/2001/XMLSchema#",
+      "gs1": "http://gs1.org/voc/",
+      "@vocab": "http://gs1.org/voc/",
+      "gdst": "https://traceability-dialogue.org/vocab"
+    },
+    "@type": "gs1:Organization",
+    "globalLocationNumber": "urn:gdst:example.org:party:processor.1",
+    "cbvmda:informationProvider": "urn:gdst:example.org:party:processor.1",
+    "organizationName": [
+      { "@language": "en-US", "@value": "Busan Processing Facility" },
+      { "@language": "ko-KR", "@value": "부산 가공 시설" }
+    ]
+  },
+
+
+  {
+    "@context": {
+      "cbvmda": "urn:epcglobal:cbv:mda",
+      "xsd": "http://www.w3.org/2001/XMLSchema#",
+      "gs1": "http://gs1.org/voc/",
+      "@vocab": "http://gs1.org/voc/",
+      "gdst": "https://traceability-dialogue.org/vocab"
+    },
+    "@type": "gs1:Place",
+    "globalLocationNumber": "urn:gdst:example.org:location:loc:importer.123",
+    "cbvmda:owning_party": "urn:gdst:example.org:party:importer.1",
+    "cbvmda:informationProvider": "urn:gdst:example.org:party:importer.1",
+    "name": [
+      { "@language": "en-US", "@value": "Busan Importing Facility" },
+      { "@language": "ko-KR", "@value": "부산 가공 시설" }
+    ],
+    "address": {
+      "@type": "gs1:PostalAddress",
+      "streetAddress": [
+        { "@language": "en-US", "@value": "45 Gwangbok-ro, Jung-gu" },
+        { "@language": "ko-KR", "@value": "부산광역시 중구 광복로 45" }
+      ],
+      "addressLocality": [
+        { "@language": "en-US", "@value": "Busan" },
+        { "@language": "ko-KR", "@value": "부산" }
+      ],
+      "addressRegion": [
+        { "@language": "en-US", "@value": "Busan" },
+        { "@language": "ko-KR", "@value": "부산" }
+      ],
+      "countryCode": "KR"
+    }
+  },
+  {
+    "@context": {
+      "cbvmda": "urn:epcglobal:cbv:mda",
+      "xsd": "http://www.w3.org/2001/XMLSchema#",
+      "gs1": "http://gs1.org/voc/",
+      "@vocab": "http://gs1.org/voc/",
+      "gdst": "https://traceability-dialogue.org/vocab"
+    },
+    "@type": "gs1:Organization",
+    "globalLocationNumber": "urn:gdst:example.org:party:importer.1",
+    "cbvmda:informationProvider": "urn:gdst:example.org:party:importer.1",
+    "organizationName": [
+      { "@language": "en-US", "@value": "Busan Importers Co." },
+      { "@language": "ko-KR", "@value": "부산 수입 회사" }
+    ]
+  }
+]
+
+
+
+
+
+### posting json
+POST {{baseUrl}}/capture
+Content-Type: application/ld+json
+X-API-Key: {{apiKey}}
+
+[
+  {
+  "@context": {
+    "cbvmda": "urn:epcglobal:cbv:mda",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "gs1": "http://gs1.org/voc/",
+    "@vocab": "http://gs1.org/voc/",
+    "gdst": "https://traceability-dialogue.org/vocab"
+  },
+  "@type": "gs1:Product",
+  "gtin": "urn:gdst:example.org:product:class:processor.2",
+  "productName": [
+    {
+      "@language": "en-US",
+      "@value": "Can of Tuna"
+    }
+  ],
+  "cbvmda:tradeItemConditionCode": "OTH",
+  "cbvmda:owning_party": "urn:gdst:example.org:party:processor.1",
+  "cbvmda:informationProvider": "urn:gdst:example.org:party:processor.1",
+  "cbvmda:speciesForFisheryStatisticsPurposesName": [
+    "Thunnus albacares"
+  ],
+  "cbvmda:speciesForFisheryStatisticsPurposesCode": [
+    "YFT"
+  ]
+}
+
+]
+
+
+
+### Importer Organization
+GET {{baseUrl}}/01/urn:gdst:example.org:product:class:processor.2
+Accept: application/ld+json
+X-API-Key: {{apiKey}}
