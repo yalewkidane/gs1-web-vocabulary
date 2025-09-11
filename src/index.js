@@ -27,6 +27,11 @@ app.use(cors({
 
 
 app.use(express.json({ type: ['application/json','application/ld+json'], limit: '10mb' }));
+//for logging purpose
+app.use((req, res, next) => {
+    console.log(`${new Date().toISOString()} - ${req.method} ${req.originalUrl}`);
+    next();
+});
 
 
 app.use('/gs1webvoc', authMiddleware, router);
