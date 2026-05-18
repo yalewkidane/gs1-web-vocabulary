@@ -26,35 +26,47 @@ docker-compose up --build
 The API will start and (by default) be reachable at:
 
 ```arduino
-http://localhost:5050
+http://localhost:7087
 ```
 
 
-Compose maps host 5050 → container 3000. If you change PORT or published ports, update your client baseUrl.
+Compose now reads ports from `.env`. Host port (`API_PORT`, default `7087`) is mapped to the container port (`PORT`, default `7087`). MongoDB is published on the host at `MONGO_HOST_PORT` (default `27021`) and stays on `27017` inside the compose network. If you change any of these in `.env`, update your client `baseUrl` to match.
 
 ### Environment
 
-Create a .env in the project root (values shown are sane defaults):
+Copy `.env.example` to `.env` and adjust as needed:
 
-```ini
-# API
-PORT=3000                       # container port; compose maps 5050:3000
-CORS_ORIGIN=*                   # or http://localhost:5050
-API_KEY=api-key-value
-
-# MongoDB
-MONGO_URI=mongodb://mongodb:27017/masterdata
-NODE_ENV=development
+```bash
+cp .env.example .env
 ```
 
+```ini
+# API (container)
+PORT=7087                                       # port the Node app listens on inside the container
+CORS_ORIGIN=http://localhost:7087
+API_KEY=your-api-key
 
-The service expects X-API-Key to match API_KEY (via your authMiddleware).
+# MongoDB
+MONGO_URI=mongodb://localhost:27017/masterdata  # used when running the app outside Docker
+MONGO_HOST_PORT=27021                           # host-side port mapped to mongo's 27017
+NODE_ENV=development
+
+# Remote API (used by api_test/*.http via {{$dotenv ...}})
+API_HOST=http://localhost
+API_PORT=7087
+```
+
+Notes:
+- Inside the compose network the api container talks to mongo at `mongodb://mongodb:27017/masterdata`; that value is hardcoded in `docker-compose.yml` and does not come from `.env`.
+- The `.http` files under `api_test/` resolve `{{$dotenv API_HOST}}`, `{{$dotenv API_PORT}}`, `{{$dotenv API_KEY}}` from the project-root `.env` (via the VS Code REST Client extension).
+- The service expects `X-API-Key` to match `API_KEY` (via `authMiddleware`).
 
 ### Base variables (for REST Client / curl)
 ```less
-@apiKey = api-key-value
-@port   = 5050
-@baseUrl= http://localhost:{{port}}
+@apiKey  = {{$dotenv API_KEY}}
+@host    = {{$dotenv API_HOST}}
+@port    = {{$dotenv API_PORT}}
+@baseUrl = {{host}}:{{port}}/gs1webvoc
 ```
 
 ## Endpoints
@@ -111,14 +123,15 @@ The service expects X-API-Key to match API_KEY (via your authMiddleware).
 
 All examples assume:
 ```less
-@apiKey = api-key-value
-@port   = 5050
-@baseUrl= http://localhost:{{port}}
+@apiKey  = {{$dotenv API_KEY}}
+@host    = {{$dotenv API_HOST}}
+@port    = {{$dotenv API_PORT}}
+@baseUrl = {{host}}:{{port}}/gs1webvoc
 ```
 
 ### Posting JSON-LD (batch)
 ```perl
-POST {{baseUrl}}/gs1webvoc/capture
+POST {{baseUrl}}/capture
 Content-Type: application/ld+json
 X-API-Key: {{apiKey}}
 
@@ -172,28 +185,28 @@ X-API-Key: {{apiKey}}
 
 ### Get by AI + ID (Place via AI 414)
 ```perl
-GET {{baseUrl}}/gs1webvoc/414/urn:gdst:example.org:location:loc:importer.124
+GET {{baseUrl}}/414/urn:gdst:example.org:location:loc:importer.124
 Accept: application/ld+json
 X-API-Key: {{apiKey}}
 ```
 
 ### Get by AI + ID (Organization via AI 417)
 ```perl
-GET {{baseUrl}}/gs1webvoc/417/urn:gdst:traceability-solution.com:party:7d90c2cd-a801-4e22-acee-82bf27a4844d
+GET {{baseUrl}}/417/urn:gdst:traceability-solution.com:party:7d90c2cd-a801-4e22-acee-82bf27a4844d
 Accept: application/ld+json
 X-API-Key: {{apiKey}}
 ```
 
 ### Search (all types)
 ```perl
-GET {{baseUrl}}/gs1webvoc/search
+GET {{baseUrl}}/search
 Accept: application/json
 X-API-Key: {{apiKey}}
 ```
 
 ### Search (typed – Places only)
 ```perl
-GET {{baseUrl}}/gs1webvoc/search?type=gs1:Place
+GET {{baseUrl}}/search?type=gs1:Place
 Accept: application/json
 X-API-Key: {{apiKey}}
 ```
@@ -202,7 +215,7 @@ X-API-Key: {{apiKey}}
 Paginating: if the response includes Next-Page-Token header, request the next page with:
 
 ```perl
-GET {{baseUrl}}/gs1webvoc/search?type=gs1:Place&next={{Next-Page-Token}}
+GET {{baseUrl}}/search?type=gs1:Place&next={{Next-Page-Token}}
 Accept: application/json
 X-API-Key: {{apiKey}}
 ```

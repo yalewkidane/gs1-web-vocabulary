@@ -1,7 +1,7 @@
-@apiKey = 62237afe89d3fbec955b34f3b9b447948a612c70b591cd5b5837d3aad0a6ac48
-@localPort=5050
-@port=24240
-@baseUrl=http://210.113.134.235:{{port}}/gs1webvoc
+@apiKey = {{$dotenv API_KEY}}
+@host = {{$dotenv API_HOST}}
+@port = {{$dotenv API_PORT}}
+@baseUrl = {{host}}:{{port}}/gs1webvoc
 
 
 
@@ -20,11 +20,6 @@
   # urn:gdst:example.org:party:importer.1
   #  |---> urn:epc:id:pgln:88000269.00011
 
-
-### Processor Location
-GET http://210.113.134.235:24240/gs1webvoc/414/urn:gdst:example.org:location:loc:processor.plant1
-Accept: application/ld+json
-X-API-Key: {{apiKey}}
 
 ### Processor Location
 GET {{baseUrl}}/414/urn:gdst:example.org:location:loc:processor.plant1
