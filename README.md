@@ -32,6 +32,16 @@ http://localhost:7087
 
 Compose now reads ports from `.env`. Host port (`API_PORT`, default `7087`) is mapped to the container port (`PORT`, default `7087`). MongoDB is published on the host at `MONGO_HOST_PORT` (default `27021`) and stays on `27017` inside the compose network. If you change any of these in `.env`, update your client `baseUrl` to match.
 
+### Fresh start
+
+To wipe all persisted data and rebuild containers from scratch:
+
+```bash
+./fresh-start.sh
+```
+
+This runs `docker compose down`, removes the `../web-voc-data` directory (requires sudo), and brings the stack back up with `docker compose up -d --build`.
+
 ### Environment
 
 Copy `.env.example` to `.env` and adjust as needed:
